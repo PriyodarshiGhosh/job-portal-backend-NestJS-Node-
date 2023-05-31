@@ -13,6 +13,6 @@ export interface IJobModel extends ObjectionModel{
 export interface IJobSearchModel {
     recruiterId?:number,
     search?: string;
-    page?: number;
+    currentPage?: number;
     perPage?: number;
   }

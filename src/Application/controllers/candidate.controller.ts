@@ -25,7 +25,9 @@ export class CandidateController extends RestController{
         async fetch(@Req() req:Request){
           const inputs = req.all();
           const result= await this.candidateService.fetch(inputs as IJobSearchModel);
-          return await this.transform(result, new ApplicationDetailTransformer(),{req})
+          console.log(result)
+          return result;
+          //return await this.transform(result, new ApplicationDetailTransformer(),{req})
       }
 //add return type everywhere
 //remove unused vars

@@ -18,6 +18,7 @@ export class LoginController {
   @Roles('recruiter','candidate','admin')
   async create(@Req() req:Request) {
     const inputs=req.all();
+    console.log(inputs)
     return this.authService.login(inputs);
     
     }

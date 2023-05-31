@@ -14,18 +14,18 @@ export class JobRepository
   
   async search(inputs: IJobSearchModel): Promise<Pagination<IJobModel>> {
     const query = this.query();
+  
     if (inputs.search) {
-       query.where('title','like',`%${inputs.search}%`);
+      query.where('title', 'like', `%${inputs.search}%`);
     }
-    if(inputs.recruiterId){
-      query.where('recruiterId','like',`%${inputs.recruiterId}%`);
+  
+    if (inputs.recruiterId) {
+      query.where('recruiterId', 'like', `%${inputs.recruiterId}%`);
     }
-    console.log(inputs.search)
-    const searchResult: Pagination<IJobModel> = await query.paginate(
-      inputs.page || 1,
-      inputs.perPage || 8,
-    );
-    //console.log(inputs.search)
+  
+    const page = Number(inputs.currentPage) || 1; // Use the currentPage query parameter
+    const perPage = inputs.perPage || 8;
+  
+    const searchResult: Pagination<IJobModel> = await query.paginate(page, perPage);
     return searchResult;
-  }
-}
+  }}

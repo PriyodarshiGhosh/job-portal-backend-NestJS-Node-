@@ -23,7 +23,6 @@ export class JobController extends RestController{
   async fetch(@Req() req:Request){
     const inputs=req.all();
     const jobs= this.jobService.fetch(inputs as IJobSearchModel);
-    console.log(inputs)
     console.log(jobs)
     return jobs;
     //return await this.transform(jobs, new ApplicationDetailTransformer(),{req})
@@ -35,9 +34,10 @@ export class JobController extends RestController{
     let user = req.user;
     const inputs=req.all();
     const userId = req.user.id;
+    console.log(inputs)
     const result= await this.jobService.fetchApplicants(userId,inputs);
-    //return result;
-    return await this.transform(result, new JobDetailTransformer(),{req})
+    return result;
+    //return await this.transform(result, new JobDetailTransformer(),{req})
   }
   @Post()
   @UseGuards(JwtAuthGuard)
