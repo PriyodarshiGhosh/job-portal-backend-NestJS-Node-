@@ -8,11 +8,13 @@ import { JobModuleConstants } from "@app/Job/constants";
 import { IApplicationModel } from "../interfaces/candidate";
 import { GenericException, Pagination, RestController } from "@libs/boat";
 import { IJobModel, IJobSearchModel } from "@app/Job/interfaces/jobs";
+import { UserService } from "@app/user";
 
 @Injectable()
 export class CandidateService{
     constructor(
         private validator: BaseValidator,
+        private readonly userService: UserService,
         @Inject(ApplicationModuleConstants.applicationRepo) public applicationRepo: ApplicationRepositoryContract,
         @Inject(JobModuleConstants.jobRepo) public jobRepo: JobRepositoryContract
       ) {}
@@ -20,7 +22,18 @@ export class CandidateService{
         return await this.jobRepo.search(inputs);
     }
     async fetchApplication(id:number):Promise<IApplicationModel[]>{
-      return await this.applicationRepo.getWhere({userId:id});
+      const applicants=this.applicationRepo.getWhere({userId:id})
+           const users = [];
+           console.log(applicants)
+            for (const applicant of await applicants) {
+             const user = await this.jobRepo.getWhere({ id: applicant.jobId });
+              if (user) {
+                users.push(user);
+               }
+       }
+       console.log(users)
+       return users;
+      //return await this.applicationRepo.getWhere({userId:id});
   }
     async create(inputs: Record<string,any>,id:number): Promise<any> {
       //jobId

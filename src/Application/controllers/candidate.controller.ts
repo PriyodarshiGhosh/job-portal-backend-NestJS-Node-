@@ -12,6 +12,7 @@ import { JwtAuthGuard } from "../../Guards/jwt.candidate.guard";
 import { ApplicationDetailTransformer } from "../../transformer/recruiter/detail";
 import { IJobModel, IJobSearchModel } from "@app/Job/interfaces/jobs";
 import { JobDetailTransformer } from "@app/transformer/applications/detail";
+import { ApplicationRepositoryContract } from "../repositories/user/contract";
 @Controller('user/jobs')
 //jobs/application
 export class CandidateController extends RestController{
@@ -38,7 +39,9 @@ export class CandidateController extends RestController{
             const userId=req.user.id;
             console.log(userId)
             const result= await this.candidateService.fetchApplication(userId);
-            return await this.transform(result, new JobDetailTransformer(),{req})
+            console.log(result)
+            return result;
+            //return await this.transform(result, new JobDetailTransformer(),{req})
       }
 
   @Post()
