@@ -15,6 +15,7 @@ import { IApplicationModel } from '@app/Application/interfaces/candidate';
  export class JobService {
      constructor(
          private validator: BaseValidator,
+         private readonly userService: UserService,
          @Inject(JobModuleConstants.jobRepo) public jobRepo: JobRepositoryContract,
          @Inject(ApplicationModuleConstants.applicationRepo) public applicationRepo:ApplicationRepositoryContract
 
@@ -23,7 +24,16 @@ import { IApplicationModel } from '@app/Application/interfaces/candidate';
         const jobPostings=await this.jobRepo.getWhere({recruiterId:id,id:inputs.id});
         if(!jobPostings) return GenericException;
         const applicants= await this.applicationRepo.getWhere({jobId:inputs.id})
-        return applicants
+        console.log(applicants)
+        const users = [];
+         for (const applicant of applicants) {
+             const user = await this.userService.userRepo.getWhere({ id: applicant.userId });
+              if (user) {
+                users.push(user);
+               }
+       }
+        console.log(users)
+        return users
     }
 
        async fetch(inputs:IJobSearchModel):Promise<Pagination<IJobModel>>{
