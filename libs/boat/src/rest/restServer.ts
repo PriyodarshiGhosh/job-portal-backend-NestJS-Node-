@@ -30,7 +30,6 @@ export class RestServer {
     options.globalPrefix && app.setGlobalPrefix(options.globalPrefix);
 
     const config = app.get(ConfigService, { strict: false });
-    const port = options.port || config.get<number>('app.port');
-    await app.listen(port, '0.0.0.0');
+    await app.listen(options.port || config.get<number>('app.port'));
   }
 }
