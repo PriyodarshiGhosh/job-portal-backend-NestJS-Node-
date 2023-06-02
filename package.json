@@ -21,9 +21,9 @@
   "homepage": "https://github.com/squareboat/nestjs-boilerplate",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "npm run start:dev",
+    "start": "NODE_OPTIONS=--max-old-space-size=4096 npm run start:dev",
     "start:dev": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
