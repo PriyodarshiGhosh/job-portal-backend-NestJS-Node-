@@ -49,7 +49,6 @@ export class CandidateController extends RestController{
   async create(@Req() req:Request) {
     const inputs = req.all();
     const userId = req.user.id;
-    console.log(inputs)
     const result=await this.candidateService.create(inputs,userId);
     return result;
     //return await this.transform(result, new JobDetailTransformer(),{req})

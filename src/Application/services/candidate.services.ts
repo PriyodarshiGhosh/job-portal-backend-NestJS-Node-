@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { BaseValidator } from "@libs/boat/validator";
 import { ApplicationModuleConstants } from "../constants";
 import { ApplicationRepositoryContract } from "../repositories/user/contract";
@@ -38,12 +38,31 @@ export class CandidateService{
     async create(inputs: Record<string,any>,id:number): Promise<any> {
       //jobId
         const job=await this.jobRepo.getWhere({id:inputs.jobId})
+        let count=0;
         if(!job) return GenericException;
-        const user = await this.applicationRepo.create({
-          userId:id,
-          resume: inputs.resume,
-          jobId:inputs.jobId// jobId
-        });
-         return user
+        try{
+          const check=await this.applicationRepo.getWhere({userId:id,jobId:inputs.jobId});
+          console.log(check.length)
+          if((check.length>0)){
+            count=count+1;
+            throw new GenericException('Already applied');
+          }
+        }
+        
+        catch(error){
+          if(count===0){
+            const user = await this.applicationRepo.create({
+              userId:id,
+              resume: inputs.resume,
+              jobId:inputs.jobId// jobId
+            });
+             return user
+          }
+          else{
+            throw new GenericException('Already applied');
+          }
+          
+        }
+        
         } 
 }
