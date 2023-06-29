@@ -8,11 +8,11 @@ export default registerAs("db", () => ({
       client: 'mysql2',
       debug: !!+process.env.DB_DEBUG,
       connection: {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_DATABASE,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT ||3306,
+        database: process.env.DB_DATABASE||'job_portal',
+        user: process.env.DB_USER || 'aryan',
+        password: process.env.DB_PASSWORD ||'pabitra1234',
         charset: 'utf8',
       },
         migrations: {
