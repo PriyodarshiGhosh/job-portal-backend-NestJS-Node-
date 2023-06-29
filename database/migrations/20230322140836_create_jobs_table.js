@@ -7,7 +7,7 @@ exports.up = async function (knex) {
       table.string("uuid").index();
       table.string("salary").index();
       table.boolean("is_active").defaultTo(false);
-      table.bigInteger("recruiter_id").unsigned().references("users.id");
+      table.bigInteger("recruiterId").unsigned().references("users.id");
     });
     return migration;
   };
